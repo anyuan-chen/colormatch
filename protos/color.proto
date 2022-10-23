@@ -1,0 +1,18 @@
+syntax = "proto3";
+message Color {
+    string hexCode = 1;
+}
+message Palette {
+    repeated Color color = 1;
+}
+message MatchColorRequest {
+    Color color = 1;
+    Palette palette = 2;
+}
+message MatchColorResponse {
+    Color color = 1;
+}
+
+service PaletteMatchingService {
+    rpc MatchColor(MatchColorRequest) returns (MatchColorResponse);
+}
