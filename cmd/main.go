@@ -1,8 +1,8 @@
 package cmd
 
-import "google.golang.org/grpc"
+//import "google.golang.org/grpc"
 
 func main() {
-	grpcServer := grpc.NewServer()
+	//grpcServer := grpc.NewServer()
 	//grpcServer.RegisterService()
 }

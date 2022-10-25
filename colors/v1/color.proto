@@ -1,6 +1,8 @@
 syntax = "proto3";
+package colors.v1;
+option go_package = "github.com/anyuan-chen/colormatch/pkg/colors";
 message Color {
-    string hexCode = 1;
+    string hex_code = 1;
 }
 message Palette {
     repeated Color color = 1;
