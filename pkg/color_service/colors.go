@@ -9,6 +9,11 @@ import (
 type ColorServiceServer struct {
 	colors.UnimplementedPaletteMatchingServiceServer
 }
+type XYZ struct {
+	x float64
+	y float64
+	z float64
+}
 type CIE76 struct {
 	l float64
 	a float64

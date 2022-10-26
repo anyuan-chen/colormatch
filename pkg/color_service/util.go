@@ -1,21 +1,60 @@
 package color_service
 
 import (
+	"errors"
 	"image/color"
-	"math"
+
+	"github.com/jkl1337/go-chromath"
+	"github.com/jkl1337/go-chromath/deltae"
 )
 
 func HexToRgb(hex string) (color.RGBA, error) {
-	return color.RGBA{}, nil
+	rgba := color.RGBA{}
+	if hex[0] != '#' {
+		return rgba, errors.New("invalid hex code - does not start with a #")
+	}
+	hexToByte := func(b byte) byte {
+		switch {
+		case b >= '0' && b <= '9':
+			return b - '0'
+		case b >= 'a' && b <= 'f':
+			return b - 'a' + 10
+		case b >= 'A' && b <= 'F':
+			return b - 'A' + 10
+		}
+		return 0
+	}
+	switch len(hex) {
+	case 4:
+		rgba.R = hexToByte(hex[1]) * 17
+		rgba.G = hexToByte(hex[2]) * 17
+		rgba.B = hexToByte(hex[3]) * 17
+	case 7:
+		rgba.R = hexToByte(hex[1])<<4 + hexToByte(hex[2])
+		rgba.G = hexToByte(hex[3])<<4 + hexToByte(hex[4])
+		rgba.B = hexToByte(hex[5])<<4 + hexToByte(hex[6])
+	default:
+		return rgba, errors.New("incorrect length of hex code")
+	}
+	return rgba, nil
 }
 
-func RgbToCIE76(rgba color.RGBA) (CIE76, error) {
-	return CIE76{}, nil
+func RgbToXYZ(rgba color.RGBA) (chromath.XYZ, error) {
+	rgbToXYZ := chromath.NewRGBTransformer(&chromath.SpaceAdobeRGB,
+		&chromath.AdaptationBradford, *&chromath.SpaceAdobeRGB.IlluminantRef,
+		&chromath.Scaler8bClamping, 1.0, nil)
+	chromathPoint := [3]float64{float64(rgba.R), float64(rgba.G), float64(rgba.B)}
+	chromathRGBA := chromath.RGB(chromathPoint)
+	c1xyz := rgbToXYZ.Convert(chromathRGBA)
+	return c1xyz, nil
 }
 
-func CIE76ColorDifference(color1 CIE76, color2 CIE76) float64 {
-	aDelta := math.Pow((color1.a - color2.a), 2)
-	bDelta := math.Pow((color1.b - color2.b), 2)
-	lDelta := math.Pow((color1.l - color2.l), 2)
-	return math.Sqrt(aDelta + bDelta + lDelta)
+func XYZToCIE76(xyz chromath.XYZ) (chromath.Lab, error) {
+	lab2xyz := chromath.NewLabTransformer(*&chromath.SpaceAdobeRGB.IlluminantRef)
+	c1lab := lab2xyz.Invert(xyz)
+	return c1lab, nil
+}
+
+func CIE76ColorDifference(color1 chromath.Lab, color2 chromath.Lab) float64 {
+	return deltae.CIE2000(color1, color2, &deltae.KLChDefault)
 }
