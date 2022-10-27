@@ -9,19 +9,28 @@ import (
 
 func HexColorDifference(color1 string, color2 string) (float64, error) {
 	rgb1, err := HexToRgb(color1)
+	if err != nil {
+		return 0, errors.New("bad hex code color 1")
+	}
 	rgb2, err := HexToRgb(color2)
 	if err != nil {
-		return 0, errors.New("bad hex code")
+		return 0, errors.New("bad hex code colo 2")
 	}
 	xyz1, err := RgbToXYZ(rgb1)
+	if err != nil {
+		return 0, errors.New("problem from rgb to xyz 1")
+	}
 	xyz2, err := RgbToXYZ(rgb2)
 	if err != nil {
-		return 0, errors.New("problem from rgb to xyz")
+		return 0, errors.New("problem from rgb to xyz 2")
 	}
 	lab1, err := XYZToCIE76(xyz1)
+	if err != nil {
+		return 0, errors.New("problem from xyz to lab1 1")
+	}
 	lab2, err := XYZToCIE76(xyz2)
 	if err != nil {
-		return 0, errors.New("problem from xyz to lab1")
+		return 0, errors.New("problem from xyz to lab1 2")
 	}
 	return deltae.CIE2000(lab1, lab2, &deltae.KLChDefault), nil
 }
