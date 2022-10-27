@@ -12,7 +12,7 @@ type ColorServiceServer struct {
 	colors.UnimplementedPaletteMatchingServiceServer
 }
 
-func (s *ColorServiceServer) MatchColor(ctx context.Context, req *colors.MatchColorRequest) (*colors.MatchColorResponse, error) {
+func (s *ColorServiceServer) MatchColor(ctx context.Context, req *colors.MatchColorRequest) (*colors.ColorResponse, error) {
 	user_defined_color := req.GetColor()
 	palette := req.GetPalette().Color
 
@@ -28,5 +28,5 @@ func (s *ColorServiceServer) MatchColor(ctx context.Context, req *colors.MatchCo
 			closestColor = color
 		}
 	}
-	return &colors.MatchColorResponse{Color: closestColor}, nil
+	return &colors.ColorResponse{Color: closestColor}, nil
 }

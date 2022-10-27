@@ -22,7 +22,8 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type PaletteMatchingServiceClient interface {
-	MatchColor(ctx context.Context, in *MatchColorRequest, opts ...grpc.CallOption) (*MatchColorResponse, error)
+	GetBackgroundColor(ctx context.Context, in *MatchColorRequest, opts ...grpc.CallOption) (*ColorResponse, error)
+	GetHighlightColor(ctx context.Context, in *MatchColorRequest, opts ...grpc.CallOption) (*ColorResponse, error)
 }
 
 type paletteMatchingServiceClient struct {
@@ -33,9 +34,18 @@ func NewPaletteMatchingServiceClient(cc grpc.ClientConnInterface) PaletteMatchin
 	return &paletteMatchingServiceClient{cc}
 }
 
-func (c *paletteMatchingServiceClient) MatchColor(ctx context.Context, in *MatchColorRequest, opts ...grpc.CallOption) (*MatchColorResponse, error) {
-	out := new(MatchColorResponse)
-	err := c.cc.Invoke(ctx, "/protos.colors.v1.PaletteMatchingService/MatchColor", in, out, opts...)
+func (c *paletteMatchingServiceClient) GetBackgroundColor(ctx context.Context, in *MatchColorRequest, opts ...grpc.CallOption) (*ColorResponse, error) {
+	out := new(ColorResponse)
+	err := c.cc.Invoke(ctx, "/colors.v1.PaletteMatchingService/GetBackgroundColor", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *paletteMatchingServiceClient) GetHighlightColor(ctx context.Context, in *MatchColorRequest, opts ...grpc.CallOption) (*ColorResponse, error) {
+	out := new(ColorResponse)
+	err := c.cc.Invoke(ctx, "/colors.v1.PaletteMatchingService/GetHighlightColor", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -46,15 +56,19 @@ func (c *paletteMatchingServiceClient) MatchColor(ctx context.Context, in *Match
 // All implementations should embed UnimplementedPaletteMatchingServiceServer
 // for forward compatibility
 type PaletteMatchingServiceServer interface {
-	MatchColor(context.Context, *MatchColorRequest) (*MatchColorResponse, error)
+	GetBackgroundColor(context.Context, *MatchColorRequest) (*ColorResponse, error)
+	GetHighlightColor(context.Context, *MatchColorRequest) (*ColorResponse, error)
 }
 
 // UnimplementedPaletteMatchingServiceServer should be embedded to have forward compatible implementations.
 type UnimplementedPaletteMatchingServiceServer struct {
 }
 
-func (UnimplementedPaletteMatchingServiceServer) MatchColor(context.Context, *MatchColorRequest) (*MatchColorResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method MatchColor not implemented")
+func (UnimplementedPaletteMatchingServiceServer) GetBackgroundColor(context.Context, *MatchColorRequest) (*ColorResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetBackgroundColor not implemented")
+}
+func (UnimplementedPaletteMatchingServiceServer) GetHighlightColor(context.Context, *MatchColorRequest) (*ColorResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetHighlightColor not implemented")
 }
 
 // UnsafePaletteMatchingServiceServer may be embedded to opt out of forward compatibility for this service.
@@ -68,20 +82,38 @@ func RegisterPaletteMatchingServiceServer(s grpc.ServiceRegistrar, srv PaletteMa
 	s.RegisterService(&PaletteMatchingService_ServiceDesc, srv)
 }
 
-func _PaletteMatchingService_MatchColor_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _PaletteMatchingService_GetBackgroundColor_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(MatchColorRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(PaletteMatchingServiceServer).MatchColor(ctx, in)
+		return srv.(PaletteMatchingServiceServer).GetBackgroundColor(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/protos.colors.v1.PaletteMatchingService/MatchColor",
+		FullMethod: "/colors.v1.PaletteMatchingService/GetBackgroundColor",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PaletteMatchingServiceServer).MatchColor(ctx, req.(*MatchColorRequest))
+		return srv.(PaletteMatchingServiceServer).GetBackgroundColor(ctx, req.(*MatchColorRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _PaletteMatchingService_GetHighlightColor_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MatchColorRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PaletteMatchingServiceServer).GetHighlightColor(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/colors.v1.PaletteMatchingService/GetHighlightColor",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PaletteMatchingServiceServer).GetHighlightColor(ctx, req.(*MatchColorRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -90,12 +122,16 @@ func _PaletteMatchingService_MatchColor_Handler(srv interface{}, ctx context.Con
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var PaletteMatchingService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "protos.colors.v1.PaletteMatchingService",
+	ServiceName: "colors.v1.PaletteMatchingService",
 	HandlerType: (*PaletteMatchingServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "MatchColor",
-			Handler:    _PaletteMatchingService_MatchColor_Handler,
+			MethodName: "GetBackgroundColor",
+			Handler:    _PaletteMatchingService_GetBackgroundColor_Handler,
+		},
+		{
+			MethodName: "GetHighlightColor",
+			Handler:    _PaletteMatchingService_GetHighlightColor_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
