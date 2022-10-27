@@ -5,19 +5,20 @@ import (
 	"errors"
 	"math"
 
-	"github.com/anyuan-chen/colormatch/protos/colors/v1"
+	colorsv1 "github.com/anyuan-chen/colormatch/gen/proto/go/colors/v1"
+	sharedv1 "github.com/anyuan-chen/colormatch/gen/proto/go/shared/v1"
 )
 
 type ColorServiceServer struct {
-	colors.UnimplementedPaletteMatchingServiceServer
+	colorsv1.UnimplementedPaletteMatchingServiceServer
 }
 
-func (s *ColorServiceServer) MatchColor(ctx context.Context, req *colors.MatchColorRequest) (*colors.ColorResponse, error) {
+func (s *ColorServiceServer) MatchColor(ctx context.Context, req *colorsv1.MatchColorRequest) (*colorsv1.MatchColorResponse, error) {
 	user_defined_color := req.GetColor()
 	palette := req.GetPalette().Color
 
 	dist := math.MaxFloat64
-	var closestColor *colors.Color
+	var closestColor *sharedv1.Color
 	for _, color := range palette {
 		cur_dist, err := HexColorDifference(color.HexCode, user_defined_color.HexCode)
 		if err != nil {
@@ -28,5 +29,5 @@ func (s *ColorServiceServer) MatchColor(ctx context.Context, req *colors.MatchCo
 			closestColor = color
 		}
 	}
-	return &colors.ColorResponse{Color: closestColor}, nil
+	return &colorsv1.MatchColorResponse{Color: closestColor}, nil
 }

@@ -40,7 +40,7 @@ func HexToRgb(hex string) (color.RGBA, error) {
 
 func RgbToXYZ(rgba color.RGBA) (chromath.XYZ, error) {
 	rgbToXYZ := chromath.NewRGBTransformer(&chromath.SpaceAdobeRGB,
-		&chromath.AdaptationBradford, *&chromath.SpaceAdobeRGB.IlluminantRef,
+		&chromath.AdaptationBradford, chromath.SpaceAdobeRGB.IlluminantRef,
 		&chromath.Scaler8bClamping, 1.0, nil)
 	chromathPoint := [3]float64{float64(rgba.R), float64(rgba.G), float64(rgba.B)}
 	chromathRGBA := chromath.RGB(chromathPoint)
@@ -49,7 +49,7 @@ func RgbToXYZ(rgba color.RGBA) (chromath.XYZ, error) {
 }
 
 func XYZToCIE76(xyz chromath.XYZ) (chromath.Lab, error) {
-	lab2xyz := chromath.NewLabTransformer(*&chromath.SpaceAdobeRGB.IlluminantRef)
+	lab2xyz := chromath.NewLabTransformer(chromath.SpaceAdobeRGB.IlluminantRef)
 	c1lab := lab2xyz.Invert(xyz)
 	return c1lab, nil
 }
