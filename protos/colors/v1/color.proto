@@ -16,5 +16,6 @@ message MatchColorResponse {
 }
 
 service PaletteMatchingService {
-    rpc MatchColor(MatchColorRequest) returns (MatchColorResponse);
+    rpc GetBackgroundColor(MatchColorRequest) returns (MatchColorResponse);
+    rpc GetHighlightColor(MatchColorRequest) returns (MatchColorResponse);
 }
