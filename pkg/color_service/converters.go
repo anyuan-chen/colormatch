@@ -5,7 +5,6 @@ import (
 	"image/color"
 
 	"github.com/jkl1337/go-chromath"
-	"github.com/jkl1337/go-chromath/deltae"
 )
 
 func HexToRgb(hex string) (color.RGBA, error) {
@@ -53,8 +52,4 @@ func XYZToCIE76(xyz chromath.XYZ) (chromath.Lab, error) {
 	lab2xyz := chromath.NewLabTransformer(*&chromath.SpaceAdobeRGB.IlluminantRef)
 	c1lab := lab2xyz.Invert(xyz)
 	return c1lab, nil
-}
-
-func CIE76ColorDifference(color1 chromath.Lab, color2 chromath.Lab) float64 {
-	return deltae.CIE2000(color1, color2, &deltae.KLChDefault)
 }

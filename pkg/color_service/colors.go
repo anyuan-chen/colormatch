@@ -24,6 +24,10 @@ func (s *ColorServiceServer) MatchColor(ctx context.Context, req *colors.MatchCo
 	user_defined_color := req.GetColor()
 	palette := req.GetPalette().Color
 
+	for _, color := range palette {
+		
+	}
+
 	//hex -> rgb
 	//rgb -> l*a*b*
 	//l*a*b* -> euclidian distance between l, a, and b
