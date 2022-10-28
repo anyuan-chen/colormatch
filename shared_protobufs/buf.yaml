@@ -1,4 +1,5 @@
 version: v1
+name: buf.build/andrewchen2004/colormatch
 breaking:
   use:
     - FILE

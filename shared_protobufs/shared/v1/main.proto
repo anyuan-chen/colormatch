@@ -2,7 +2,10 @@ syntax = "proto3";
 package shared.v1;
 option go_package = "github.com/anyuan-chen/colormatch/gen/proto/go/shared/v1;sharedv1";
 message Color {
-    string hex_code = 1;
+    int32 r = 1;
+    int32 g = 2;
+    int32 b = 3;
+    int32 a = 4;
 }
 message Palette {
     repeated Color color = 1;

@@ -16,11 +16,11 @@ type ColorServiceServer struct {
 func (s *ColorServiceServer) MatchColor(ctx context.Context, req *colorsv1.MatchColorRequest) (*colorsv1.MatchColorResponse, error) {
 	user_defined_color := req.GetColor()
 	palette := req.GetPalette().Color
-
 	dist := math.MaxFloat64
 	var closestColor *sharedv1.Color
+
 	for _, color := range palette {
-		cur_dist, err := HexColorDifference(color.HexCode, user_defined_color.HexCode)
+		cur_dist, err := RGBColorDifference(SharedColorToRGBA(color), SharedColorToRGBA(user_defined_color))
 		if err != nil {
 			return nil, errors.New("")
 		}

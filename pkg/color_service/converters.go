@@ -4,9 +4,16 @@ import (
 	"errors"
 	"image/color"
 
+	sharedv1 "github.com/anyuan-chen/colormatch/gen/proto/go/shared/v1"
 	"github.com/jkl1337/go-chromath"
 )
 
+func SharedColorToRGBA(s *sharedv1.Color) color.RGBA {
+	return color.RGBA{R: uint8(s.R), G: uint8(s.G), B: uint8(s.B), A: uint8(s.A)}
+}
+func RGBAToSharedColor(c color.RGBA) *sharedv1.Color {
+	return &sharedv1.Color{R: int32(c.R), G: int32(c.G), B: int32(c.B), A: int32(c.A)}
+}
 func HexToRgb(hex string) (color.RGBA, error) {
 	rgba := color.RGBA{}
 	if hex[0] != '#' {
