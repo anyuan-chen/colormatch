@@ -4,20 +4,15 @@ option go_package = "github.com/anyuan-chen/colormatch/gen/proto/go/images/v1;im
 
 import "shared/v1/main.proto";
 
-message Image {
-    int32 width = 1;
-    int32 height = 2;
-    bytes image_data = 3;
-}
 message GetBackgroundColorRequest {
-    Image image = 1;
+    shared.v1.Image image = 1;
     shared.v1.Palette palette = 2;
 }
 message GetBackgroundColorResponse {
     shared.v1.Color color = 1;
 }
 message GetHighlightColorRequest {
-    Image image = 1;
+    shared.v1.Image image = 1;
     shared.v1.Palette palette = 2;
 }
 message GetHighlightColorResponse{
