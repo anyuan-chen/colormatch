@@ -20,17 +20,15 @@ func RGBToHex(c color.Color) string {
 	return fmt.Sprintf("#%02x%02x%02x", r, g, b)
 }
 func (iss *PaletteMatchingServer) GetBackgroundColor(ctx context.Context, req *imagev1.GetBackgroundColorRequest) (*imagev1.GetBackgroundColorResponse, error) {
-	default_context := context.Background()
 	error_response := &imagev1.GetBackgroundColorResponse{Color: &sharedv1.Color{}}
 	imgData := req.Image
 	palette := req.Palette
-
+	backgroundPalette := req.BackgroundColors
 	closest_palette, err := GetDistanceMatrix(imgData, palette, iss.Color_Service)
-
 	if err != nil {
 		return error_response, err
 	}
-
+	
 	var backgroundColor *sharedv1.Color
 	return &imagev1.GetBackgroundColorResponse{Color: backgroundColor}, nil
 }

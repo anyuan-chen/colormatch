@@ -32,3 +32,24 @@ func GetDistanceMatrix(imgData *sharedv1.Image, palette *sharedv1.Palette, color
 	}
 	return closest_palette, nil
 }
+
+func GetFrequencyArray(imgData *sharedv1.Image, palette *sharedv1.Palette, color_service colorsv1.PaletteMatchingServiceClient) (map[*sharedv1.Color]int32, error) {
+	img, err := BytesToImage(&imgData.ImageData)
+	if err != nil {
+		return nil, err
+	}
+	palette_frequency := make(map[*sharedv1.Color]int32)
+	for i := 0; i < int(imgData.Height); i++ {
+		for j := 0; j < int(imgData.Width); j++ {
+			R, G, B, A := img.At(i, j).RGBA()
+			color := sharedv1.Color{R: int32(R), G: int32(G), B: int32(B), A: int32(A)}
+			request := colorsv1.MatchColorRequest{Color: &color, Palette: palette}
+			closest_palette_color, err := color_service.MatchColor(context.Background(), &request)
+			if err != nil {
+				return nil, err
+			}
+			palette_frequency[closest_palette_color.Color]++
+		}
+	}
+	return palette_frequency, nil
+}
