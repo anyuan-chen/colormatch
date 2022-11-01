@@ -1,0 +1,16 @@
+syntax = "proto3";
+package colors.v1;
+option go_package = "github.com/anyuan-chen/colormatch/gen/proto/go/colors/v1;colorsv1";
+import "shared/v1/main.proto";
+
+message MatchColorRequest {
+    shared.v1.Color color = 1;
+    shared.v1.Palette palette = 2;
+}
+message MatchColorResponse {
+    shared.v1.Color color = 1;
+}
+
+service PaletteMatchingService {
+    rpc MatchColor(MatchColorRequest) returns (MatchColorResponse);
+}

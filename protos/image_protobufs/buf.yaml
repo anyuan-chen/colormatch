@@ -1,0 +1,10 @@
+version: v1
+name: buf.build/andrewchen2004/colormatch-images
+deps:
+  - buf.build/andrewchen2004/colormatch
+breaking:
+  use:
+    - FILE
+lint:
+  use:
+    - DEFAULT

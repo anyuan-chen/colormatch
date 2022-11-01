@@ -1,0 +1,17 @@
+syntax = "proto3";
+package shared.v1;
+option go_package = "github.com/anyuan-chen/colormatch/gen/proto/go/shared/v1;sharedv1";
+message Color {
+    int32 r = 1;
+    int32 g = 2;
+    int32 b = 3;
+    int32 a = 4;
+}
+message Palette {
+    repeated Color color = 1;
+}
+message Image {
+    int32 width = 1;
+    int32 height = 2;
+    bytes image_data = 3;
+}
