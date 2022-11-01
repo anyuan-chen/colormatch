@@ -8,6 +8,8 @@ import (
 	sharedv1 "github.com/anyuan-chen/colormatch/gen/proto/go/shared/v1"
 )
 
+// GetDistanceMatrix returns a 2D matrix of the palette color with the closest color distance
+// from the each specific image pixel
 func GetDistanceMatrix(imgData *sharedv1.Image, palette *sharedv1.Palette, color_service colorsv1.PaletteMatchingServiceClient) ([][]color.RGBA, error) {
 	img, err := BytesToImage(&imgData.ImageData)
 	if err != nil {
@@ -33,6 +35,9 @@ func GetDistanceMatrix(imgData *sharedv1.Image, palette *sharedv1.Palette, color
 	return closest_palette, nil
 }
 
+// GetFrequencyArray returns a map of sharedv1.Colors contained inside the palette,
+// corresponding to the number of pixels in the image with closest palette color being the
+// key of the map color
 func GetFrequencyArray(imgData *sharedv1.Image, palette *sharedv1.Palette, color_service colorsv1.PaletteMatchingServiceClient) (map[*sharedv1.Color]int32, error) {
 	img, err := BytesToImage(&imgData.ImageData)
 	if err != nil {
