@@ -1,5 +1,0 @@
-version: v1
-directories:
-  - image_protobufs
-  - shared_protobufs
-  - colors_protobufs
