@@ -2,6 +2,6 @@
 version: v1
 deps:
   - remote: buf.build
-    owner: andrewchen2004
-    repository: colormatch
-    commit: a31a9a7ee4ba44058a746fee8db8bcc7
+    owner: colormatch
+    repository: shared
+    commit: 0ebbb58126e648fca89c9f3a7bfdbc25

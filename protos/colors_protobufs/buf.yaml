@@ -1,7 +1,7 @@
 version: v1
-name: buf.build/andrewchen2004/colormatch-colors
+name: buf.build/colormatch/colors
 deps:
-  - buf.build/andrewchen2004/colormatch
+  - buf.build/colormatch/shared
 breaking:
   use:
     - FILE

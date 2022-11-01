@@ -1,5 +1,5 @@
 version: v1
-name: buf.build/andrewchen2004/colormatch
+name: buf.build/colormatch/shared
 breaking:
   use:
     - FILE
