@@ -8,12 +8,14 @@ const Layout = ({ children }) => {
   return (
     <>
       <div className="container">
-        <h1 className={`${inter.className} title`}>Colormatch</h1>
-        <div className="filter-search">
-          <FilterBox></FilterBox>
-          <SearchBar></SearchBar>
+        <div className="content-box">
+          <h1 className={`${inter.className} title`}>Colormatch</h1>
+          <div className="filter-search">
+            <FilterBox></FilterBox>
+            <SearchBar></SearchBar>
+          </div>
+          {children}
         </div>
-        {children}
       </div>
       <style jsx>{styles}</style>
     </>
@@ -21,8 +23,17 @@ const Layout = ({ children }) => {
 };
 const styles = `
     .container {
-        max-width: 1200px;
-        
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        padding-top: 16px;
+        row-gap: 16px;
+    }
+    .content-box{
+        width: 1200px;
+        display: flex;
+        flex-direction: column;
+        row-gap: 8px;
     }
     .title {
         font-size: 48px;
