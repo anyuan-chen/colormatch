@@ -1,9 +1,11 @@
 "use client";
 import React from "react";
+import { useState } from "react";
 import { Inter } from "@next/font/google";
 import Image from "next/image";
 const inter = Inter();
-const SearchBar = ({ text, setText }) => {
+const SearchBar = () => {
+  const [text, setText] = useState("");
   return (
     <>
       <div className="search-bar">

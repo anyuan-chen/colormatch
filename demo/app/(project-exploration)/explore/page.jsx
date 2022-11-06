@@ -12,22 +12,23 @@ const Explore = () => {
     {
       title: "Sample Test 2",
       subtitle: "this is a correct subtitle",
-      color: "#EF8B7C",
+      color: "#C3B9FA",
       rounding: [false, true, false, false], //tl tr br bl
     },
     {
       title: "Sample Test 3",
       subtitle: "this is a correct subtitle",
-      color: "#EF8B7C",
+      color: "#739AF0",
       rounding: [false, false, false, true], //tl tr br bl
     },
     {
       title: "Sample Test 4",
       subtitle: "this is a correct subtfdsfitle",
-      color: "#EF8B7C",
+      color: "#F6C944",
       rounding: [false, false, true, false], //tl tr br bl
     },
   ];
+  //get url and query the projects based on that
   return (
     <>
       <div className="card-container">

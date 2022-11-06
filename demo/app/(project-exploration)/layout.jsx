@@ -7,7 +7,7 @@ const inter = Inter();
 const Layout = ({ children }) => {
   return (
     <>
-      <div className="container">
+      <div className="content-container">
         <div className="content-box">
           <h1 className={`${inter.className} title`}>Colormatch</h1>
           <div className="filter-search">
@@ -22,18 +22,17 @@ const Layout = ({ children }) => {
   );
 };
 const styles = `
-    .container {
+    .content-container {
         display: flex;
         align-items: center;
         flex-direction: column;
-        padding-top: 16px;
-        row-gap: 16px;
+        padding-top: 32px;
     }
     .content-box{
         width: 1200px;
         display: flex;
         flex-direction: column;
-        row-gap: 8px;
+        row-gap: 16px;
     }
     .title {
         font-size: 48px;
@@ -42,7 +41,7 @@ const styles = `
     .filter-search {
         display: flex;
         justify-content: space-between;
-        
+        padding-bottom: 16px;
     }
 `;
 export default Layout;
