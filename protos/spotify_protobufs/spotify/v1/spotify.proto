@@ -1,0 +1,32 @@
+syntax="proto3";
+package spotify.v1;
+option go_package = "github.com/anyuan-chen/colormatch/gen/proto/go/spotify/v1;spotifyv1";
+
+import "shared/v1/main.proto";
+
+message ColorMetadataResponse {
+    shared.v1.Color background_color = 1;
+    shared.v1.Color highlight_color = 2;
+}
+message GetColorMetadataForAlbumRequest {
+    string song_title = 1;
+    shared.v1.Palette background_colors = 2;
+    shared.v1.Palette highlight_colors = 3;
+}
+
+message GetColorMetadataForAlbumResponse {
+    ColorMetadataResponse response = 1;
+}
+message GetColorMetadataForArtistRequest {
+    string artist_name = 1;
+    shared.v1.Palette background_colors = 2;
+    shared.v1.Palette highlight_colors = 3;
+}
+message GetColorMetadataForArtistResponse {
+    ColorMetadataResponse response = 1;
+}
+
+service SpotifyImageColorMatchingService {
+    rpc GetColorMetadataForAlbum(GetColorMetadataForAlbumRequest) returns (GetColorMetadataForAlbumResponse);
+    rpc GetColorMetadataForArtist(GetColorMetadataForArtistRequest) returns (GetColorMetadataForArtistResponse);
+}

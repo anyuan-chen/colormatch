@@ -1,0 +1,10 @@
+version: v1
+name: buf.build/colormatch/spotify
+deps:
+  - buf.build/colormatch/shared
+breaking:
+  use:
+    - FILE
+lint:
+  use:
+    - DEFAULT
