@@ -9,6 +9,7 @@ This is a monorepo with a collection of microservices:
 - `pkg` contains the source code for all of the services.
 - `protos` contains all of the data types and definitions for the API in protobuf form. You can also explore the data types and definitions through Buf here: https://buf.build/colormatch/repositories.
 - `gen` contains all of the generated code from the protobuf files.
+- `demo` contains the Next.js app that serves as a demo for some of the available services
 
 ## Technologies used
 

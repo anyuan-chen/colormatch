@@ -22,8 +22,7 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type SpotifyImageColorMatchingServiceClient interface {
-	GetColorMetadataForAlbum(ctx context.Context, in *GetColorMetadataForAlbumRequest, opts ...grpc.CallOption) (*GetColorMetadataForAlbumResponse, error)
-	GetColorMetadataForArtist(ctx context.Context, in *GetColorMetadataForArtistRequest, opts ...grpc.CallOption) (*GetColorMetadataForArtistResponse, error)
+	GetColorMetadataForSpotifyAsset(ctx context.Context, in *GetColorMetadataForSpotifyAssetRequest, opts ...grpc.CallOption) (*GetColorMetadataForSpotifyAssetResponse, error)
 }
 
 type spotifyImageColorMatchingServiceClient struct {
@@ -34,18 +33,9 @@ func NewSpotifyImageColorMatchingServiceClient(cc grpc.ClientConnInterface) Spot
 	return &spotifyImageColorMatchingServiceClient{cc}
 }
 
-func (c *spotifyImageColorMatchingServiceClient) GetColorMetadataForAlbum(ctx context.Context, in *GetColorMetadataForAlbumRequest, opts ...grpc.CallOption) (*GetColorMetadataForAlbumResponse, error) {
-	out := new(GetColorMetadataForAlbumResponse)
-	err := c.cc.Invoke(ctx, "/spotify.v1.SpotifyImageColorMatchingService/GetColorMetadataForAlbum", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *spotifyImageColorMatchingServiceClient) GetColorMetadataForArtist(ctx context.Context, in *GetColorMetadataForArtistRequest, opts ...grpc.CallOption) (*GetColorMetadataForArtistResponse, error) {
-	out := new(GetColorMetadataForArtistResponse)
-	err := c.cc.Invoke(ctx, "/spotify.v1.SpotifyImageColorMatchingService/GetColorMetadataForArtist", in, out, opts...)
+func (c *spotifyImageColorMatchingServiceClient) GetColorMetadataForSpotifyAsset(ctx context.Context, in *GetColorMetadataForSpotifyAssetRequest, opts ...grpc.CallOption) (*GetColorMetadataForSpotifyAssetResponse, error) {
+	out := new(GetColorMetadataForSpotifyAssetResponse)
+	err := c.cc.Invoke(ctx, "/spotify.v1.SpotifyImageColorMatchingService/GetColorMetadataForSpotifyAsset", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -56,19 +46,15 @@ func (c *spotifyImageColorMatchingServiceClient) GetColorMetadataForArtist(ctx c
 // All implementations should embed UnimplementedSpotifyImageColorMatchingServiceServer
 // for forward compatibility
 type SpotifyImageColorMatchingServiceServer interface {
-	GetColorMetadataForAlbum(context.Context, *GetColorMetadataForAlbumRequest) (*GetColorMetadataForAlbumResponse, error)
-	GetColorMetadataForArtist(context.Context, *GetColorMetadataForArtistRequest) (*GetColorMetadataForArtistResponse, error)
+	GetColorMetadataForSpotifyAsset(context.Context, *GetColorMetadataForSpotifyAssetRequest) (*GetColorMetadataForSpotifyAssetResponse, error)
 }
 
 // UnimplementedSpotifyImageColorMatchingServiceServer should be embedded to have forward compatible implementations.
 type UnimplementedSpotifyImageColorMatchingServiceServer struct {
 }
 
-func (UnimplementedSpotifyImageColorMatchingServiceServer) GetColorMetadataForAlbum(context.Context, *GetColorMetadataForAlbumRequest) (*GetColorMetadataForAlbumResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetColorMetadataForAlbum not implemented")
-}
-func (UnimplementedSpotifyImageColorMatchingServiceServer) GetColorMetadataForArtist(context.Context, *GetColorMetadataForArtistRequest) (*GetColorMetadataForArtistResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetColorMetadataForArtist not implemented")
+func (UnimplementedSpotifyImageColorMatchingServiceServer) GetColorMetadataForSpotifyAsset(context.Context, *GetColorMetadataForSpotifyAssetRequest) (*GetColorMetadataForSpotifyAssetResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetColorMetadataForSpotifyAsset not implemented")
 }
 
 // UnsafeSpotifyImageColorMatchingServiceServer may be embedded to opt out of forward compatibility for this service.
@@ -82,38 +68,20 @@ func RegisterSpotifyImageColorMatchingServiceServer(s grpc.ServiceRegistrar, srv
 	s.RegisterService(&SpotifyImageColorMatchingService_ServiceDesc, srv)
 }
 
-func _SpotifyImageColorMatchingService_GetColorMetadataForAlbum_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetColorMetadataForAlbumRequest)
+func _SpotifyImageColorMatchingService_GetColorMetadataForSpotifyAsset_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetColorMetadataForSpotifyAssetRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(SpotifyImageColorMatchingServiceServer).GetColorMetadataForAlbum(ctx, in)
+		return srv.(SpotifyImageColorMatchingServiceServer).GetColorMetadataForSpotifyAsset(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/spotify.v1.SpotifyImageColorMatchingService/GetColorMetadataForAlbum",
+		FullMethod: "/spotify.v1.SpotifyImageColorMatchingService/GetColorMetadataForSpotifyAsset",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(SpotifyImageColorMatchingServiceServer).GetColorMetadataForAlbum(ctx, req.(*GetColorMetadataForAlbumRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _SpotifyImageColorMatchingService_GetColorMetadataForArtist_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetColorMetadataForArtistRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(SpotifyImageColorMatchingServiceServer).GetColorMetadataForArtist(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/spotify.v1.SpotifyImageColorMatchingService/GetColorMetadataForArtist",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(SpotifyImageColorMatchingServiceServer).GetColorMetadataForArtist(ctx, req.(*GetColorMetadataForArtistRequest))
+		return srv.(SpotifyImageColorMatchingServiceServer).GetColorMetadataForSpotifyAsset(ctx, req.(*GetColorMetadataForSpotifyAssetRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -126,12 +94,8 @@ var SpotifyImageColorMatchingService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*SpotifyImageColorMatchingServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "GetColorMetadataForAlbum",
-			Handler:    _SpotifyImageColorMatchingService_GetColorMetadataForAlbum_Handler,
-		},
-		{
-			MethodName: "GetColorMetadataForArtist",
-			Handler:    _SpotifyImageColorMatchingService_GetColorMetadataForArtist_Handler,
+			MethodName: "GetColorMetadataForSpotifyAsset",
+			Handler:    _SpotifyImageColorMatchingService_GetColorMetadataForSpotifyAsset_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
