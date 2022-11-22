@@ -8,25 +8,22 @@ message ColorMetadataResponse {
     shared.v1.Color background_color = 1;
     shared.v1.Color highlight_color = 2;
 }
-message GetColorMetadataForAlbumRequest {
+enum SearchType {
+    SEARCH_TYPE_UNSPECIFIED = 0;
+    SEARCH_TYPE_ARTIST = 1;
+    SEARCH_TYPE_ALBUM = 2;
+}
+message GetColorMetadataForSpotifyAssetRequest {
     string song_title = 1;
-    shared.v1.Palette background_colors = 2;
-    shared.v1.Palette highlight_colors = 3;
+    SearchType search_type = 2;
+    shared.v1.Palette background_colors = 3;
+    shared.v1.Palette highlight_colors = 4;
 }
 
-message GetColorMetadataForAlbumResponse {
-    ColorMetadataResponse response = 1;
-}
-message GetColorMetadataForArtistRequest {
-    string artist_name = 1;
-    shared.v1.Palette background_colors = 2;
-    shared.v1.Palette highlight_colors = 3;
-}
-message GetColorMetadataForArtistResponse {
+message GetColorMetadataForSpotifyAssetResponse {
     ColorMetadataResponse response = 1;
 }
 
 service SpotifyImageColorMatchingService {
-    rpc GetColorMetadataForAlbum(GetColorMetadataForAlbumRequest) returns (GetColorMetadataForAlbumResponse);
-    rpc GetColorMetadataForArtist(GetColorMetadataForArtistRequest) returns (GetColorMetadataForArtistResponse);
+    rpc GetColorMetadataForSpotifyAsset(GetColorMetadataForSpotifyAssetRequest) returns (GetColorMetadataForSpotifyAssetResponse);
 }
