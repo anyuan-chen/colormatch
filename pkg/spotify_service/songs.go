@@ -2,6 +2,7 @@ package spotify_service
 
 import (
 	"context"
+	"encoding/json"
 
 	imagesv1 "github.com/anyuan-chen/colormatch/gen/proto/go/images/v1"
 	sharedv1 "github.com/anyuan-chen/colormatch/gen/proto/go/shared/v1"
@@ -11,19 +12,20 @@ import (
 )
 
 type SpotifyRetrievalServer struct {
-	token          *oauth2.Token
-	auth           spotify.Authenticator
+	Auth           spotify.Authenticator
 	Images_Service imagesv1.PaletteMatchingServiceClient
 	spotifyv1.UnimplementedSpotifyImageColorMatchingServiceServer
 }
 
-func (s *SpotifyRetrievalServer) GetClient() *spotify.Client {
-	spotify_client := s.auth.NewClient(s.token)
+func (s *SpotifyRetrievalServer) GetClient(token *oauth2.Token) *spotify.Client {
+	spotify_client := s.Auth.NewClient(token)
 	return &spotify_client
 }
 
-func (s *SpotifyRetrievalServer) GetColorMetadataForSpotifyAsset(req *spotifyv1.GetColorMetadataForSpotifyAssetRequest) (*spotifyv1.GetColorMetadataForSpotifyAssetResponse, error) {
-	client := s.GetClient()
+func (s *SpotifyRetrievalServer) GetColorMetadataForSpotifyAsset(ctx context.Context, req *spotifyv1.GetColorMetadataForSpotifyAssetRequest) (*spotifyv1.GetColorMetadataForSpotifyAssetResponse, error) {
+	var token *oauth2.Token
+	json.Unmarshal(req.Token, token)
+	client := s.GetClient(token)
 	song_title := req.SongTitle
 	background_colors := req.BackgroundColors
 	highlight_colors := req.HighlightColors

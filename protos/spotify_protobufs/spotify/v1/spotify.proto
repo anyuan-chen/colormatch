@@ -14,10 +14,11 @@ enum SearchType {
     SEARCH_TYPE_ALBUM = 2;
 }
 message GetColorMetadataForSpotifyAssetRequest {
-    string song_title = 1;
-    SearchType search_type = 2;
-    shared.v1.Palette background_colors = 3;
-    shared.v1.Palette highlight_colors = 4;
+    bytes token = 1;
+    string song_title = 2;
+    SearchType search_type = 3;
+    shared.v1.Palette background_colors = 4;
+    shared.v1.Palette highlight_colors = 5;
 }
 
 message GetColorMetadataForSpotifyAssetResponse {

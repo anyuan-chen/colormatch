@@ -1,10 +1,16 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"net"
 	"os"
+
+	imagesv1 "github.com/anyuan-chen/colormatch/gen/proto/go/images/v1"
+	spotifyv1 "github.com/anyuan-chen/colormatch/gen/proto/go/spotify/v1"
+	"github.com/anyuan-chen/colormatch/pkg/spotify_service"
+	"github.com/zmb3/spotify"
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/insecure"
 )
 
 func main() {
@@ -12,6 +18,22 @@ func main() {
 	if err != nil {
 		log.Fatalf("could not listen on tcp port")
 	}
-	fmt.Print(lis.Addr().String())
+	images_client_grpc, err := grpc.Dial(os.Getenv("BASE_URL")+os.Getenv("IMAGE_SERVICE_PORT"), grpc.WithTransportCredentials(insecure.NewCredentials()))
+	if err != nil {
+		log.Fatalf("the color client won't start up")
+	}
+	defer images_client_grpc.Close()
+	images_client := imagesv1.NewPaletteMatchingServiceClient(images_client_grpc)
+	server := &spotify_service.SpotifyRetrievalServer{
+		Images_Service: images_client,
+		Auth:           spotify.NewAuthenticator(os.Getenv("SPOTIFY_REDIRECT_URL"), spotify.ScopeUserReadPrivate),
+	}
+	grpcServer := grpc.NewServer()
+	//tie the protobuf server to GRPC
+	spotifyv1.RegisterSpotifyImageColorMatchingServiceServer(grpcServer, server)
+	//have the GRPC server listen on the port set earlier
+	if err := grpcServer.Serve(lis); err != nil {
+		log.Fatalf("failed to listen ff15")
+	}
 
 }
