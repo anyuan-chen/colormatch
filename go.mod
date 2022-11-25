@@ -11,6 +11,7 @@ require (
 
 require (
 	github.com/golang/protobuf v1.5.2 // indirect
+	github.com/gorilla/mux v1.8.0
 	github.com/jkl1337/go-chromath v0.0.0-20140428033135-240283655afd // indirect
 	golang.org/x/net v0.2.0 // indirect
 	golang.org/x/oauth2 v0.2.0
