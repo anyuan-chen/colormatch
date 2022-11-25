@@ -1,0 +1,21 @@
+syntax="proto3";
+package session_management.v1;
+
+option go_package = "github.com/anyuan-chen/colormatch/gen/proto/go/session_management/v1;session_managementv1";
+
+message RetrieveRequest {
+    string ciphertext = 1;
+}
+message RetrieveResponse {
+    bytes token = 1;
+}
+message SetTokenRequest {
+    bytes token = 1;
+}
+message SetTokenResponse {
+    string ciphertext = 1;
+}
+service SessionManagementService {
+    rpc Retrieve (RetrieveRequest) returns (RetrieveResponse);
+    rpc SetToken (SetTokenRequest) returns (SetTokenResponse);
+}
