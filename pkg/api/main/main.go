@@ -23,8 +23,7 @@ func main() {
 
 	spotify := r.PathPrefix("/spotify").Subrouter()
 	spotifyAPI := &spotify_api.SpotifyApi{}
-	spotify.HandleFunc("/artist", spotifyAPI.GetColorSummaryForArtist)
-	spotify.HandleFunc("/album", spotifyAPI.GetColorSummaryForAlbum)
+	spotify.HandleFunc("/colors", spotifyAPI.GetColorSummary)
 
 	http.Handle("/", &Server{r: r})
 	http.ListenAndServe(":8080", nil)
