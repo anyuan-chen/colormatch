@@ -18,6 +18,31 @@ type SpotifyApi struct {
 	Spotify_Service spotifyv1.SpotifyImageColorMatchingServiceClient
 }
 
+func (s *SpotifyApi) PingTokenValidity(w http.ResponseWriter, r *http.Request) {
+	token, err := GetToken(s, r)
+	if err != nil {
+		http.Error(w, "bad credentials", http.StatusBadRequest)
+		return
+	}
+	token_json, err := json.Marshal(token)
+	if err != nil {
+		http.Error(w, "bad token", http.StatusBadRequest)
+		return
+	}
+	type Validity struct {
+		Validity bool `json:"valid"`
+	}
+	res, err := s.Spotify_Service.PingTokenValidity(context.Background(), &spotifyv1.PingTokenValidityRequest{
+		Token: token_json,
+	})
+	if !res.Valid || err != nil {
+		resp, _ := json.Marshal(Validity{Validity: false})
+		w.Write(resp)
+	}
+	resp, _ := json.Marshal(Validity{Validity: true})
+	w.Write(resp)
+}
+
 func (s *SpotifyApi) GetColorSummary(w http.ResponseWriter, r *http.Request) {
 	token, err := GetToken(s, r)
 	if err != nil {
