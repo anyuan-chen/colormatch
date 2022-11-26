@@ -24,7 +24,13 @@ message GetColorMetadataForSpotifyAssetRequest {
 message GetColorMetadataForSpotifyAssetResponse {
     ColorMetadataResponse response = 1;
 }
-
+message PingTokenValidityRequest {
+    bytes token = 1;
+}
+message PingTokenValidityResponse {
+    bool valid = 1;
+}
 service SpotifyImageColorMatchingService {
     rpc GetColorMetadataForSpotifyAsset(GetColorMetadataForSpotifyAssetRequest) returns (GetColorMetadataForSpotifyAssetResponse);
+    rpc PingTokenValidity(PingTokenValidityRequest) returns (PingTokenValidityResponse);
 }
