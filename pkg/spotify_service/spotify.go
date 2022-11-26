@@ -21,6 +21,16 @@ func (s *SpotifyRetrievalServer) GetClient(token *oauth2.Token) *spotify.Client 
 	spotify_client := s.Auth.NewClient(token)
 	return &spotify_client
 }
+func (s *SpotifyRetrievalServer) PingTokenValidity(ctx context.Context, req *spotifyv1.PingTokenValidityRequest) (*spotifyv1.PingTokenValidityResponse, error) {
+	var token *oauth2.Token
+	json.Unmarshal(req.Token, token)
+	client := s.GetClient(token)
+	_, err := client.Search("jay chou", spotify.SearchTypeArtist)
+	if err != nil {
+		return &spotifyv1.PingTokenValidityResponse{Valid: false}, nil
+	}
+	return &spotifyv1.PingTokenValidityResponse{Valid: true}, nil
+}
 
 func (s *SpotifyRetrievalServer) GetColorMetadataForSpotifyAsset(ctx context.Context, req *spotifyv1.GetColorMetadataForSpotifyAssetRequest) (*spotifyv1.GetColorMetadataForSpotifyAssetResponse, error) {
 	var token *oauth2.Token
