@@ -10,14 +10,12 @@ import (
 	sharedv1 "github.com/anyuan-chen/colormatch/gen/proto/go/shared/v1"
 	spotifyv1 "github.com/anyuan-chen/colormatch/gen/proto/go/spotify/v1"
 	"github.com/anyuan-chen/colormatch/pkg/color_service"
-	"github.com/anyuan-chen/colormatch/pkg/session_management_service"
-	"github.com/anyuan-chen/colormatch/pkg/spotify_service"
 	"golang.org/x/oauth2"
 )
 
 type SpotifyApi struct {
-	session_manager session_management_service.Session_Management_Service
-	spotify_service spotify_service.SpotifyRetrievalServer
+	Session_Manager session_managementv1.SessionManagementServiceClient
+	Spotify_Service spotifyv1.SpotifyImageColorMatchingServiceClient
 }
 
 func (s *SpotifyApi) GetColorSummary(w http.ResponseWriter, r *http.Request) {
@@ -57,7 +55,7 @@ func (s *SpotifyApi) GetColorSummary(w http.ResponseWriter, r *http.Request) {
 		BackgroundColors: &background_palette,
 		HighlightColors:  &highlight_palette,
 	}
-	color_metadata, err := s.spotify_service.GetColorMetadataForSpotifyAsset(context.Background(), color_metadata_request)
+	color_metadata, err := s.Spotify_Service.GetColorMetadataForSpotifyAsset(context.Background(), color_metadata_request)
 	if err != nil {
 		http.Error(w, err.Error()+"this was the fault of the color retrieval failing", http.StatusBadRequest)
 		return
@@ -104,7 +102,7 @@ func GetToken(s *SpotifyApi, r *http.Request) (*oauth2.Token, error) {
 	retrieval_request := &session_managementv1.RetrieveRequest{
 		Ciphertext: cookie.Value,
 	}
-	retrieval_response, err := s.session_manager.Retrieve(context.Background(), retrieval_request)
+	retrieval_response, err := s.Session_Manager.Retrieve(context.Background(), retrieval_request)
 	if err != nil {
 		return nil, err
 	}
