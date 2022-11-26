@@ -6,6 +6,7 @@ require google.golang.org/grpc v1.51.0
 
 require (
 	github.com/zmb3/spotify v1.3.0 // indirect
+	github.com/zmb3/spotify/v2 v2.3.0 // indirect
 	google.golang.org/appengine v1.6.7 // indirect
 )
 
@@ -18,6 +19,6 @@ require (
 	golang.org/x/oauth2 v0.2.0
 	golang.org/x/sys v0.2.0 // indirect
 	golang.org/x/text v0.4.0 // indirect
-	google.golang.org/genproto v0.0.0-20200526211855-cb27e3aa2013 // indirect
+	google.golang.org/genproto v0.0.0-20200825200019-8632dd797987 // indirect
 	google.golang.org/protobuf v1.28.0 // indirect
 )
