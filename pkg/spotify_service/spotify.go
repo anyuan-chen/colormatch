@@ -26,7 +26,7 @@ func (s *SpotifyRetrievalServer) GetColorMetadataForSpotifyAsset(ctx context.Con
 	var token *oauth2.Token
 	json.Unmarshal(req.Token, token)
 	client := s.GetClient(token)
-	song_title := req.SongTitle
+	song_title := req.Query
 	background_colors := req.BackgroundColors
 	highlight_colors := req.HighlightColors
 	overall_palette := append(background_colors.Color, highlight_colors.Color...)
