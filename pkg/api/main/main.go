@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -11,6 +12,7 @@ import (
 	spotify_api "github.com/anyuan-chen/colormatch/pkg/api/spotify_api"
 	"github.com/gorilla/mux"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/insecure"
 )
 
 type Server struct {
@@ -20,14 +22,15 @@ type Server struct {
 func main() {
 	r := mux.NewRouter()
 	//session manager
-	session_management_connection, err := grpc.Dial(os.Getenv("SESSION_MANAGEMENT_PORT"))
+	fmt.Println("dns:///session_management_grpc" + os.Getenv("SESSION_MANAGEMENT_PORT"))
+	session_management_connection, err := grpc.Dial("dns:///session_management_grpc"+os.Getenv("SESSION_MANAGEMENT_PORT"), grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
-		log.Fatal("failed to connect to session_management_service")
+		log.Fatal("failed to connect to session_management_service" + err.Error())
 	}
 	defer session_management_connection.Close()
 	session_management_service_client := session_managementv1.NewSessionManagementServiceClient(session_management_connection)
 	//spotify
-	spotify_service_connection, err := grpc.Dial(os.Getenv("SPOTIFY_SERVICE_PORT"))
+	spotify_service_connection, err := grpc.Dial(os.Getenv("SPOTIFY_SERVICE_PORT"), grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		log.Fatal("failed to connect to spotify_service")
 	}
@@ -35,7 +38,9 @@ func main() {
 	spotify_service_client := spotifyv1.NewSpotifyImageColorMatchingServiceClient(spotify_service_connection)
 	//auth
 	auth := r.PathPrefix("/auth").Subrouter()
-	authAPI := &api_auth.AuthAPI{}
+	authAPI := &api_auth.AuthAPI{
+		Session_Manager: session_management_service_client,
+	}
 	auth.HandleFunc("/spotify/login", authAPI.Login)
 	auth.HandleFunc("/spotify/callback", authAPI.Callback)
 
@@ -47,7 +52,7 @@ func main() {
 	spotify.HandleFunc("/colors", spotifyAPI.GetColorSummary)
 	spotify.HandleFunc("/ping", spotifyAPI.PingTokenValidity)
 	http.Handle("/", &Server{r: r})
-	http.ListenAndServe(":8080", nil)
+	http.ListenAndServe(os.Getenv("API_PORT"), nil)
 }
 func (s *Server) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 	if origin := req.Header.Get("Origin"); origin != "" {
