@@ -2,6 +2,7 @@ package session_management_service
 
 import (
 	"encoding/json"
+	"fmt"
 
 	session_managementv1 "github.com/anyuan-chen/colormatch/gen/proto/go/session_management/v1"
 	"github.com/google/uuid"
@@ -10,7 +11,7 @@ import (
 )
 
 type Session_Management_Service struct {
-	Sessions map[string]*oauth2.Token
+	Sessions map[string]oauth2.Token
 	session_managementv1.UnimplementedSessionManagementServiceServer
 }
 
@@ -24,11 +25,21 @@ func (s *Session_Management_Service) Retrieve(ctx context.Context, r *session_ma
 }
 
 func (s *Session_Management_Service) SetToken(ctx context.Context, r *session_managementv1.SetTokenRequest) (*session_managementv1.SetTokenResponse, error) {
-	var token *oauth2.Token
-	json.Unmarshal(r.Token, token)
-	id := uuid.New()
-	for s.Sessions[id.String()] != nil {
-		id = uuid.New()
+	var token oauth2.Token
+	err := json.Unmarshal(r.Token, &token)
+	if err != nil {
+		return nil, err
 	}
+	id := uuid.New()
+	fmt.Println("unique id: ", id)
+	for {
+		if (s.Sessions[id.String()] != oauth2.Token{}) {
+			id = uuid.New()
+			fmt.Println("unique id: ", id)
+		} else {
+			break
+		}
+	}
+	s.Sessions[id.String()] = token
 	return &session_managementv1.SetTokenResponse{Ciphertext: id.String()}, nil
 }

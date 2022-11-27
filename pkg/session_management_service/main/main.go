@@ -16,8 +16,9 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+	string_token := make(map[string]oauth2.Token)
 	session_manager := &session_management_service.Session_Management_Service{
-		Sessions: make(map[string]*oauth2.Token),
+		Sessions: string_token,
 	}
 	server := grpc.NewServer()
 	session_managementv1.RegisterSessionManagementServiceServer(server, session_manager)
