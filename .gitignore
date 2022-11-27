@@ -17,3 +17,5 @@
 **/node_modules
 **/.next
 .env
+.env.dev
+.env.prod
