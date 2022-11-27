@@ -18,7 +18,7 @@ type SpotifyRetrievalServer struct {
 }
 
 func (s *SpotifyRetrievalServer) GetClient(token *oauth2.Token) *spotify.Client {
-	spotify_client := s.Auth.NewClient(token)
+	spotify_client := spotify.Authenticator.NewClient(s.Auth, token)
 	return &spotify_client
 }
 func (s *SpotifyRetrievalServer) PingTokenValidity(ctx context.Context, req *spotifyv1.PingTokenValidityRequest) (*spotifyv1.PingTokenValidityResponse, error) {
