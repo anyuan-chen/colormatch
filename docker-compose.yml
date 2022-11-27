@@ -6,21 +6,51 @@ services:
       dockerfile: ./docker/session_management_service/Dockerfile
     ports:
       - "4040:4040"
+    env_file:
+      - .env.dev
+    networks:
+      - my-network
   color_grpc:
     build:
       context: .
       dockerfile: ./docker/spotify_service/Dockerfile
     ports:
       - "6060:6060"
+    env_file:
+      - .env.dev
+    networks:
+      - my-network
   image_grpc:
     build:
       context: .
       dockerfile: ./docker/image_service/Dockerfile
     ports:
       - "5050:5050"
+    env_file:
+      - .env.dev
+    networks:
+      - my-network
   spotify_grpc:
     build:
       context: .
       dockerfile: ./docker/spotify_service/Dockerfile
     ports:
       - "3030:3030"
+    env_file:
+      - .env.dev
+    networks:
+      - my-network
+  api:
+    build:
+      context: .
+      dockerfile: ./docker/api/Dockerfile
+    ports:
+      - "8080:8080"
+    env_file:
+      - .env.dev
+    networks:
+      - my-network
+
+networks:
+  my-network:
+    driver: bridge
