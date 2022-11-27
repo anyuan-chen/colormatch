@@ -45,7 +45,7 @@ func main() {
 		Spotify_Service: spotify_service_client,
 	}
 	spotify.HandleFunc("/colors", spotifyAPI.GetColorSummary)
-
+	spotify.HandleFunc("/ping", spotifyAPI.PingTokenValidity)
 	http.Handle("/", &Server{r: r})
 	http.ListenAndServe(":8080", nil)
 }

@@ -18,7 +18,6 @@ func (s *ColorServiceServer) MatchColor(ctx context.Context, req *colorsv1.Match
 	palette := req.GetPalette().Color
 	dist := math.MaxFloat64
 	var closestColor *sharedv1.Color
-
 	for _, color := range palette {
 		cur_dist, err := RGBColorDifference(SharedColorToRGBA(color), SharedColorToRGBA(user_defined_color))
 		if err != nil {

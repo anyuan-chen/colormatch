@@ -1,0 +1,26 @@
+version: "3"
+services:
+  session_management_grpc:
+    build:
+      context: .
+      dockerfile: ./docker/session_management_service/Dockerfile
+    ports:
+      - "4040:4040"
+  color_grpc:
+    build:
+      context: .
+      dockerfile: ./docker/spotify_service/Dockerfile
+    ports:
+      - "6060:6060"
+  image_grpc:
+    build:
+      context: .
+      dockerfile: ./docker/image_service/Dockerfile
+    ports:
+      - "5050:5050"
+  spotify_grpc:
+    build:
+      context: .
+      dockerfile: ./docker/spotify_service/Dockerfile
+    ports:
+      - "3030:3030"

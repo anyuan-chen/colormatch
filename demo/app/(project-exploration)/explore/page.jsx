@@ -4,10 +4,11 @@ import ProjectCard from "./ProjectCard";
 const Explore = () => {
   const projects = [
     {
-      title: "Sample Test 1",
-      subtitle: "this is a correct subtitle",
+      title: "Artist and Album Palettes",
+      subtitle: "Colormatching Artists and Albums to Your Brand",
       color: "#EF8B7C",
       rounding: [true, false, false, false], //tl tr br bl
+      link: "projects/brand-colors",
     },
     {
       title: "Sample Test 2",
@@ -43,6 +44,7 @@ const Explore = () => {
               bottomLeft={project.rounding[3]}
               bottomRight={project.rounding[2]}
               key={project.title + project.subtitle + project.color}
+              link={project.link}
             ></ProjectCard>
           );
         })}
