@@ -18,7 +18,7 @@ func main() {
 	if err != nil {
 		log.Fatalf("could not listen on tcp port")
 	}
-	images_client_grpc, err := grpc.Dial(os.Getenv("BASE_URL")+os.Getenv("IMAGE_SERVICE_PORT"), grpc.WithTransportCredentials(insecure.NewCredentials()))
+	images_client_grpc, err := grpc.Dial("dns:///image_grpc"+os.Getenv("IMAGE_SERVICE_PORT"), grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		log.Fatalf("the color client won't start up")
 	}

@@ -3,8 +3,8 @@ package spotify_api
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"net/http"
-	"os"
 
 	session_managementv1 "github.com/anyuan-chen/colormatch/gen/proto/go/session_management/v1"
 	sharedv1 "github.com/anyuan-chen/colormatch/gen/proto/go/shared/v1"
@@ -20,6 +20,7 @@ type SpotifyApi struct {
 
 func (s *SpotifyApi) PingTokenValidity(w http.ResponseWriter, r *http.Request) {
 	token, err := GetToken(s, r)
+	fmt.Println("token retrieved", token)
 	if err != nil {
 		http.Error(w, "bad credentials", http.StatusBadRequest)
 		return
@@ -32,14 +33,26 @@ func (s *SpotifyApi) PingTokenValidity(w http.ResponseWriter, r *http.Request) {
 	type Validity struct {
 		Validity bool `json:"valid"`
 	}
+	fmt.Println("token retrieved json version", token)
 	res, err := s.Spotify_Service.PingTokenValidity(context.Background(), &spotifyv1.PingTokenValidityRequest{
 		Token: token_json,
 	})
-	if !res.Valid || err != nil {
-		resp, _ := json.Marshal(Validity{Validity: false})
+	fmt.Println("call complete without fatal errors")
+	if err != nil || !res.Valid {
+		fmt.Println("ping token to spotify auth error: ", err)
+		resp, err := json.Marshal(Validity{Validity: false})
+		if err != nil {
+			http.Error(w, "bad encoding json for validity", http.StatusInternalServerError)
+			return
+		}
 		w.Write(resp)
+		return
 	}
-	resp, _ := json.Marshal(Validity{Validity: true})
+	resp, err := json.Marshal(Validity{Validity: true})
+	if err != nil {
+		http.Error(w, "bad encoding json for validity", http.StatusInternalServerError)
+		return
+	}
 	w.Write(resp)
 }
 
@@ -119,19 +132,23 @@ func GetSearchType(search_type string) spotifyv1.SearchType {
 	return type_map[search_type]
 }
 
-func GetToken(s *SpotifyApi, r *http.Request) (*oauth2.Token, error) {
-	cookie, err := r.Cookie(os.Getenv("spotify_session_id"))
+func GetToken(s *SpotifyApi, r *http.Request) (oauth2.Token, error) {
+	cookie, err := r.Cookie("spotify_session_id")
 	if err != nil {
-		return nil, err
+		return oauth2.Token{}, err
 	}
 	retrieval_request := &session_managementv1.RetrieveRequest{
 		Ciphertext: cookie.Value,
 	}
+	fmt.Println("cookie value: ", cookie.Value)
 	retrieval_response, err := s.Session_Manager.Retrieve(context.Background(), retrieval_request)
+	fmt.Println(retrieval_response.Token)
 	if err != nil {
-		return nil, err
+		fmt.Println(err)
+		return oauth2.Token{}, err
 	}
-	var token *oauth2.Token
-	json.Unmarshal(retrieval_response.Token, token)
+	var token oauth2.Token
+	json.Unmarshal(retrieval_response.Token, &token)
+	fmt.Println("final returned token", token)
 	return token, nil
 }

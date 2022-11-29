@@ -66,9 +66,7 @@ func (a *AuthAPI) Callback(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Problem with the session management service: "+err.Error(), http.StatusInternalServerError)
 		return
 	}
-	cookie := http.Cookie{Name: os.Getenv("spotify_session_id"), Value: set_token_response.Ciphertext, SameSite: http.SameSiteNoneMode, Secure: true}
-
+	cookie := http.Cookie{Name: "spotify_session_id", Path: "/", Value: set_token_response.Ciphertext, Secure: true, Expires: time.Now().Add(time.Hour * 24 * 7)}
 	http.SetCookie(w, &cookie)
-	//todo later
 	http.Redirect(w, r, os.Getenv("FRONTEND_SPOTIFY_CALLBACK_URL"), http.StatusPermanentRedirect)
 }

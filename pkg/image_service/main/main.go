@@ -19,7 +19,7 @@ func main() {
 		log.Fatalf("the image service won't listen")
 	}
 	//create a connection with the color client dependency
-	color_client_grpc, err := grpc.Dial(os.Getenv("BASE_URL")+os.Getenv("COLOR_SERVICE_PORT"), grpc.WithTransportCredentials(insecure.NewCredentials()))
+	color_client_grpc, err := grpc.Dial("dns:///color_grpc"+os.Getenv("COLOR_SERVICE_PORT"), grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		log.Fatalf("the color client won't start up")
 	}

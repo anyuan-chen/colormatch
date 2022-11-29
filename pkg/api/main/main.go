@@ -30,7 +30,7 @@ func main() {
 	defer session_management_connection.Close()
 	session_management_service_client := session_managementv1.NewSessionManagementServiceClient(session_management_connection)
 	//spotify
-	spotify_service_connection, err := grpc.Dial(os.Getenv("SPOTIFY_SERVICE_PORT"), grpc.WithTransportCredentials(insecure.NewCredentials()))
+	spotify_service_connection, err := grpc.Dial("dns:///spotify_grpc"+os.Getenv("SPOTIFY_SERVICE_PORT"), grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		log.Fatal("failed to connect to spotify_service")
 	}
