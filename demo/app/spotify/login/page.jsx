@@ -13,7 +13,7 @@ const Page = () => {
       </h4>
       <button className="spotify-login-button">
         <a
-          href={process.env.BACKEND_URL + "/spotify/login"}
+          href={process.env.NEXT_PUBLIC_BACKEND_URL + "/auth/spotify/login"}
           className={`${inter.className}`}
         >
           Login To Spotify

@@ -17,22 +17,29 @@ type SpotifyApi struct {
 	Session_Manager session_managementv1.SessionManagementServiceClient
 	Spotify_Service spotifyv1.SpotifyImageColorMatchingServiceClient
 }
-
+type Validity struct {
+	Validity bool   `json:"valid"`
+	Reason   string `json:"reason,omitempty"`
+}
 func (s *SpotifyApi) PingTokenValidity(w http.ResponseWriter, r *http.Request) {
 	token, err := GetToken(s, r)
 	fmt.Println("token retrieved", token)
 	if err != nil {
-		http.Error(w, "bad credentials", http.StatusBadRequest)
+		resp, err := json.Marshal(Validity{Validity: false, Reason: "token not found in request"})
+		if err != nil {
+			http.Error(w, "bad encoding json for validity", http.StatusInternalServerError)
+			return
+		}
+		w.Write(resp)
 		return
 	}
 	token_json, err := json.Marshal(token)
 	if err != nil {
-		http.Error(w, "bad token", http.StatusBadRequest)
+		resp, _ := json.Marshal(Validity{Validity: false, Reason: "token not found"})
+		w.Write(resp)
 		return
 	}
-	type Validity struct {
-		Validity bool `json:"valid"`
-	}
+
 	fmt.Println("token retrieved json version", token)
 	res, err := s.Spotify_Service.PingTokenValidity(context.Background(), &spotifyv1.PingTokenValidityRequest{
 		Token: token_json,
@@ -135,6 +142,7 @@ func GetSearchType(search_type string) spotifyv1.SearchType {
 func GetToken(s *SpotifyApi, r *http.Request) (oauth2.Token, error) {
 	cookie, err := r.Cookie("spotify_session_id")
 	if err != nil {
+		fmt.Println(err)
 		return oauth2.Token{}, err
 	}
 	retrieval_request := &session_managementv1.RetrieveRequest{

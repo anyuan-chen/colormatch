@@ -52,6 +52,7 @@ func main() {
 	spotify.HandleFunc("/colors", spotifyAPI.GetColorSummary)
 	spotify.HandleFunc("/ping", spotifyAPI.PingTokenValidity)
 	http.Handle("/", &Server{r: r})
+	fmt.Println("serving port ", os.Getenv("API_PORT"))
 	http.ListenAndServe(os.Getenv("API_PORT"), nil)
 }
 func (s *Server) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
