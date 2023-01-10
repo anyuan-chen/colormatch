@@ -30,7 +30,36 @@ message PingTokenValidityRequest {
 message PingTokenValidityResponse {
     bool valid = 1;
 }
-service SpotifyImageColorMatchingService {
+
+message GetTrackAudioFeaturesRequest {
+    bytes token = 1;
+    string id = 2;
+}
+message GetTrackAudioFeaturesResponse {
+    bytes audio_features = 1;
+}
+message GetTrackAudioAnalysisRequest  {
+    bytes token = 1;
+    string id = 2;
+}
+message GetTrackAudioAnalysisResponse {
+    bytes audio_analysis = 1;
+}
+message GetRecommendationsRequest {
+    bytes token = 1;
+    repeated string artist_ids = 2;
+    repeated string track_ids = 3;
+    repeated string genres = 4;
+    int32 recommendation_count = 5;
+}
+message GetRecommendationsResponse {
+    bytes recommendations = 1;
+}
+
+service SpotifyAPIService {
+    rpc GetTrackAudioFeatures (GetTrackAudioFeaturesRequest) returns (GetTrackAudioFeaturesResponse);
+    rpc GetTrackAudioAnalysis (GetTrackAudioAnalysisRequest) returns (GetTrackAudioAnalysisResponse);
+    rpc GetRecommendations (GetRecommendationsRequest) returns (GetRecommendationsResponse);
     rpc GetColorMetadataForSpotifyAsset(GetColorMetadataForSpotifyAssetRequest) returns (GetColorMetadataForSpotifyAssetResponse);
     rpc PingTokenValidity(PingTokenValidityRequest) returns (PingTokenValidityResponse);
 }
