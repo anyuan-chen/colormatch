@@ -18,120 +18,228 @@ import (
 // Requires gRPC-Go v1.32.0 or later.
 const _ = grpc.SupportPackageIsVersion7
 
-// SpotifyImageColorMatchingServiceClient is the client API for SpotifyImageColorMatchingService service.
+// SpotifyAPIServiceClient is the client API for SpotifyAPIService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type SpotifyImageColorMatchingServiceClient interface {
+type SpotifyAPIServiceClient interface {
+	GetTrackAudioFeatures(ctx context.Context, in *GetTrackAudioFeaturesRequest, opts ...grpc.CallOption) (*GetTrackAudioFeaturesResponse, error)
+	GetTrackAudioAnalysis(ctx context.Context, in *GetTrackAudioAnalysisRequest, opts ...grpc.CallOption) (*GetTrackAudioAnalysisResponse, error)
+	GetRecommendations(ctx context.Context, in *GetRecommendationsRequest, opts ...grpc.CallOption) (*GetRecommendationsResponse, error)
 	GetColorMetadataForSpotifyAsset(ctx context.Context, in *GetColorMetadataForSpotifyAssetRequest, opts ...grpc.CallOption) (*GetColorMetadataForSpotifyAssetResponse, error)
 	PingTokenValidity(ctx context.Context, in *PingTokenValidityRequest, opts ...grpc.CallOption) (*PingTokenValidityResponse, error)
 }
 
-type spotifyImageColorMatchingServiceClient struct {
+type spotifyAPIServiceClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewSpotifyImageColorMatchingServiceClient(cc grpc.ClientConnInterface) SpotifyImageColorMatchingServiceClient {
-	return &spotifyImageColorMatchingServiceClient{cc}
+func NewSpotifyAPIServiceClient(cc grpc.ClientConnInterface) SpotifyAPIServiceClient {
+	return &spotifyAPIServiceClient{cc}
 }
 
-func (c *spotifyImageColorMatchingServiceClient) GetColorMetadataForSpotifyAsset(ctx context.Context, in *GetColorMetadataForSpotifyAssetRequest, opts ...grpc.CallOption) (*GetColorMetadataForSpotifyAssetResponse, error) {
+func (c *spotifyAPIServiceClient) GetTrackAudioFeatures(ctx context.Context, in *GetTrackAudioFeaturesRequest, opts ...grpc.CallOption) (*GetTrackAudioFeaturesResponse, error) {
+	out := new(GetTrackAudioFeaturesResponse)
+	err := c.cc.Invoke(ctx, "/spotify.v1.SpotifyAPIService/GetTrackAudioFeatures", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *spotifyAPIServiceClient) GetTrackAudioAnalysis(ctx context.Context, in *GetTrackAudioAnalysisRequest, opts ...grpc.CallOption) (*GetTrackAudioAnalysisResponse, error) {
+	out := new(GetTrackAudioAnalysisResponse)
+	err := c.cc.Invoke(ctx, "/spotify.v1.SpotifyAPIService/GetTrackAudioAnalysis", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *spotifyAPIServiceClient) GetRecommendations(ctx context.Context, in *GetRecommendationsRequest, opts ...grpc.CallOption) (*GetRecommendationsResponse, error) {
+	out := new(GetRecommendationsResponse)
+	err := c.cc.Invoke(ctx, "/spotify.v1.SpotifyAPIService/GetRecommendations", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *spotifyAPIServiceClient) GetColorMetadataForSpotifyAsset(ctx context.Context, in *GetColorMetadataForSpotifyAssetRequest, opts ...grpc.CallOption) (*GetColorMetadataForSpotifyAssetResponse, error) {
 	out := new(GetColorMetadataForSpotifyAssetResponse)
-	err := c.cc.Invoke(ctx, "/spotify.v1.SpotifyImageColorMatchingService/GetColorMetadataForSpotifyAsset", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/spotify.v1.SpotifyAPIService/GetColorMetadataForSpotifyAsset", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *spotifyImageColorMatchingServiceClient) PingTokenValidity(ctx context.Context, in *PingTokenValidityRequest, opts ...grpc.CallOption) (*PingTokenValidityResponse, error) {
+func (c *spotifyAPIServiceClient) PingTokenValidity(ctx context.Context, in *PingTokenValidityRequest, opts ...grpc.CallOption) (*PingTokenValidityResponse, error) {
 	out := new(PingTokenValidityResponse)
-	err := c.cc.Invoke(ctx, "/spotify.v1.SpotifyImageColorMatchingService/PingTokenValidity", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/spotify.v1.SpotifyAPIService/PingTokenValidity", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// SpotifyImageColorMatchingServiceServer is the server API for SpotifyImageColorMatchingService service.
-// All implementations should embed UnimplementedSpotifyImageColorMatchingServiceServer
+// SpotifyAPIServiceServer is the server API for SpotifyAPIService service.
+// All implementations should embed UnimplementedSpotifyAPIServiceServer
 // for forward compatibility
-type SpotifyImageColorMatchingServiceServer interface {
+type SpotifyAPIServiceServer interface {
+	GetTrackAudioFeatures(context.Context, *GetTrackAudioFeaturesRequest) (*GetTrackAudioFeaturesResponse, error)
+	GetTrackAudioAnalysis(context.Context, *GetTrackAudioAnalysisRequest) (*GetTrackAudioAnalysisResponse, error)
+	GetRecommendations(context.Context, *GetRecommendationsRequest) (*GetRecommendationsResponse, error)
 	GetColorMetadataForSpotifyAsset(context.Context, *GetColorMetadataForSpotifyAssetRequest) (*GetColorMetadataForSpotifyAssetResponse, error)
 	PingTokenValidity(context.Context, *PingTokenValidityRequest) (*PingTokenValidityResponse, error)
 }
 
-// UnimplementedSpotifyImageColorMatchingServiceServer should be embedded to have forward compatible implementations.
-type UnimplementedSpotifyImageColorMatchingServiceServer struct {
+// UnimplementedSpotifyAPIServiceServer should be embedded to have forward compatible implementations.
+type UnimplementedSpotifyAPIServiceServer struct {
 }
 
-func (UnimplementedSpotifyImageColorMatchingServiceServer) GetColorMetadataForSpotifyAsset(context.Context, *GetColorMetadataForSpotifyAssetRequest) (*GetColorMetadataForSpotifyAssetResponse, error) {
+func (UnimplementedSpotifyAPIServiceServer) GetTrackAudioFeatures(context.Context, *GetTrackAudioFeaturesRequest) (*GetTrackAudioFeaturesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetTrackAudioFeatures not implemented")
+}
+func (UnimplementedSpotifyAPIServiceServer) GetTrackAudioAnalysis(context.Context, *GetTrackAudioAnalysisRequest) (*GetTrackAudioAnalysisResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetTrackAudioAnalysis not implemented")
+}
+func (UnimplementedSpotifyAPIServiceServer) GetRecommendations(context.Context, *GetRecommendationsRequest) (*GetRecommendationsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetRecommendations not implemented")
+}
+func (UnimplementedSpotifyAPIServiceServer) GetColorMetadataForSpotifyAsset(context.Context, *GetColorMetadataForSpotifyAssetRequest) (*GetColorMetadataForSpotifyAssetResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetColorMetadataForSpotifyAsset not implemented")
 }
-func (UnimplementedSpotifyImageColorMatchingServiceServer) PingTokenValidity(context.Context, *PingTokenValidityRequest) (*PingTokenValidityResponse, error) {
+func (UnimplementedSpotifyAPIServiceServer) PingTokenValidity(context.Context, *PingTokenValidityRequest) (*PingTokenValidityResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method PingTokenValidity not implemented")
 }
 
-// UnsafeSpotifyImageColorMatchingServiceServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to SpotifyImageColorMatchingServiceServer will
+// UnsafeSpotifyAPIServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to SpotifyAPIServiceServer will
 // result in compilation errors.
-type UnsafeSpotifyImageColorMatchingServiceServer interface {
-	mustEmbedUnimplementedSpotifyImageColorMatchingServiceServer()
+type UnsafeSpotifyAPIServiceServer interface {
+	mustEmbedUnimplementedSpotifyAPIServiceServer()
 }
 
-func RegisterSpotifyImageColorMatchingServiceServer(s grpc.ServiceRegistrar, srv SpotifyImageColorMatchingServiceServer) {
-	s.RegisterService(&SpotifyImageColorMatchingService_ServiceDesc, srv)
+func RegisterSpotifyAPIServiceServer(s grpc.ServiceRegistrar, srv SpotifyAPIServiceServer) {
+	s.RegisterService(&SpotifyAPIService_ServiceDesc, srv)
 }
 
-func _SpotifyImageColorMatchingService_GetColorMetadataForSpotifyAsset_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _SpotifyAPIService_GetTrackAudioFeatures_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetTrackAudioFeaturesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SpotifyAPIServiceServer).GetTrackAudioFeatures(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/spotify.v1.SpotifyAPIService/GetTrackAudioFeatures",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SpotifyAPIServiceServer).GetTrackAudioFeatures(ctx, req.(*GetTrackAudioFeaturesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _SpotifyAPIService_GetTrackAudioAnalysis_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetTrackAudioAnalysisRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SpotifyAPIServiceServer).GetTrackAudioAnalysis(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/spotify.v1.SpotifyAPIService/GetTrackAudioAnalysis",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SpotifyAPIServiceServer).GetTrackAudioAnalysis(ctx, req.(*GetTrackAudioAnalysisRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _SpotifyAPIService_GetRecommendations_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetRecommendationsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SpotifyAPIServiceServer).GetRecommendations(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/spotify.v1.SpotifyAPIService/GetRecommendations",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SpotifyAPIServiceServer).GetRecommendations(ctx, req.(*GetRecommendationsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _SpotifyAPIService_GetColorMetadataForSpotifyAsset_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetColorMetadataForSpotifyAssetRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(SpotifyImageColorMatchingServiceServer).GetColorMetadataForSpotifyAsset(ctx, in)
+		return srv.(SpotifyAPIServiceServer).GetColorMetadataForSpotifyAsset(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/spotify.v1.SpotifyImageColorMatchingService/GetColorMetadataForSpotifyAsset",
+		FullMethod: "/spotify.v1.SpotifyAPIService/GetColorMetadataForSpotifyAsset",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(SpotifyImageColorMatchingServiceServer).GetColorMetadataForSpotifyAsset(ctx, req.(*GetColorMetadataForSpotifyAssetRequest))
+		return srv.(SpotifyAPIServiceServer).GetColorMetadataForSpotifyAsset(ctx, req.(*GetColorMetadataForSpotifyAssetRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _SpotifyImageColorMatchingService_PingTokenValidity_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _SpotifyAPIService_PingTokenValidity_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(PingTokenValidityRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(SpotifyImageColorMatchingServiceServer).PingTokenValidity(ctx, in)
+		return srv.(SpotifyAPIServiceServer).PingTokenValidity(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/spotify.v1.SpotifyImageColorMatchingService/PingTokenValidity",
+		FullMethod: "/spotify.v1.SpotifyAPIService/PingTokenValidity",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(SpotifyImageColorMatchingServiceServer).PingTokenValidity(ctx, req.(*PingTokenValidityRequest))
+		return srv.(SpotifyAPIServiceServer).PingTokenValidity(ctx, req.(*PingTokenValidityRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// SpotifyImageColorMatchingService_ServiceDesc is the grpc.ServiceDesc for SpotifyImageColorMatchingService service.
+// SpotifyAPIService_ServiceDesc is the grpc.ServiceDesc for SpotifyAPIService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var SpotifyImageColorMatchingService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "spotify.v1.SpotifyImageColorMatchingService",
-	HandlerType: (*SpotifyImageColorMatchingServiceServer)(nil),
+var SpotifyAPIService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "spotify.v1.SpotifyAPIService",
+	HandlerType: (*SpotifyAPIServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
+			MethodName: "GetTrackAudioFeatures",
+			Handler:    _SpotifyAPIService_GetTrackAudioFeatures_Handler,
+		},
+		{
+			MethodName: "GetTrackAudioAnalysis",
+			Handler:    _SpotifyAPIService_GetTrackAudioAnalysis_Handler,
+		},
+		{
+			MethodName: "GetRecommendations",
+			Handler:    _SpotifyAPIService_GetRecommendations_Handler,
+		},
+		{
 			MethodName: "GetColorMetadataForSpotifyAsset",
-			Handler:    _SpotifyImageColorMatchingService_GetColorMetadataForSpotifyAsset_Handler,
+			Handler:    _SpotifyAPIService_GetColorMetadataForSpotifyAsset_Handler,
 		},
 		{
 			MethodName: "PingTokenValidity",
-			Handler:    _SpotifyImageColorMatchingService_PingTokenValidity_Handler,
+			Handler:    _SpotifyAPIService_PingTokenValidity_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
