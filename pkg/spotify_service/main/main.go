@@ -31,7 +31,7 @@ func main() {
 	//
 	grpcServer := grpc.NewServer()
 	//tie the protobuf server to GRPC
-	spotifyv1.RegisterSpotifyImageColorMatchingServiceServer(grpcServer, server)
+	spotifyv1.RegisterSpotifyAPIServiceServer(grpcServer, server)
 	//have the GRPC server listen on the port set earlier
 	if err := grpcServer.Serve(lis); err != nil {
 		log.Fatalf("failed to listen ff15")
