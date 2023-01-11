@@ -15,12 +15,13 @@ import (
 
 type SpotifyApi struct {
 	Session_Manager session_managementv1.SessionManagementServiceClient
-	Spotify_Service spotifyv1.SpotifyImageColorMatchingServiceClient
+	Spotify_Service spotifyv1.SpotifyAPIServiceClient
 }
 type Validity struct {
 	Validity bool   `json:"valid"`
 	Reason   string `json:"reason,omitempty"`
 }
+
 func (s *SpotifyApi) PingTokenValidity(w http.ResponseWriter, r *http.Request) {
 	token, err := GetToken(s, r)
 	fmt.Println("token retrieved", token)

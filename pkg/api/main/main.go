@@ -35,7 +35,7 @@ func main() {
 		log.Fatal("failed to connect to spotify_service")
 	}
 	defer spotify_service_connection.Close()
-	spotify_service_client := spotifyv1.NewSpotifyImageColorMatchingServiceClient(spotify_service_connection)
+	spotify_service_client := spotifyv1.NewSpotifyAPIServiceClient(spotify_service_connection)
 	//auth
 	auth := r.PathPrefix("/auth").Subrouter()
 	authAPI := &api_auth.AuthAPI{
@@ -51,6 +51,9 @@ func main() {
 	}
 	spotify.HandleFunc("/colors", spotifyAPI.GetColorSummary)
 	spotify.HandleFunc("/ping", spotifyAPI.PingTokenValidity)
+	spotify.HandleFunc("/recommendations", spotifyAPI.GetRecommendations)
+	spotify.HandleFunc("/trackfeatures", spotifyAPI.GetTrackAudioFeatures)
+	spotify.HandleFunc("/trackanalysis", spotifyAPI.GetTrackAudioAnalysis)
 	http.Handle("/", &Server{r: r})
 	fmt.Println("serving port ", os.Getenv("API_PORT"))
 	http.ListenAndServe(os.Getenv("API_PORT"), nil)
