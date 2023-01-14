@@ -2,7 +2,7 @@
 import Link from "next/link";
 import React from "react";
 
-const ProjectCard = ({ image, title, text_type, link = "", color }) => {
+const ProjectCard = ({ image, title, text_type, link = "" }) => {
   return (
     <div
       style={{
@@ -12,11 +12,7 @@ const ProjectCard = ({ image, title, text_type, link = "", color }) => {
     >
       <div style={{ height: "auto", width: "auto" }}>
         <Link href={link}>
-          <img
-            src={image}
-            alt="project image"
-            style={{ border: color + " 1px solid" }}
-          ></img>
+          <img src={image} alt="project image"></img>
         </Link>
       </div>
       <Link href={link}>
@@ -28,9 +24,7 @@ const ProjectCard = ({ image, title, text_type, link = "", color }) => {
           }}
         >
           <h2 style={{ fontSize: "32px", fontWeight: 500 }}>{title}</h2>
-          <h4
-            style={{ fontWeight: "medium", fontSize: "12px", fontWeight: 400 }}
-          >
+          <h4 style={{ fontWeight: "medium", fontSize: "12px" }}>
             {text_type}
           </h4>
         </div>

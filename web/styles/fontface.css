@@ -1,0 +1,87 @@
+@font-face {
+  font-family: "Value Sans Pro";
+  src: local("Value Sans Pro Regular"), local("/fonts/ValueSansPro-Regular"),
+    url("/fonts/ValueSansPro-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Value Serif Pro";
+  src: local("Value Serif Pro Regular"), local("/fonts/ValueSerifPro-Regular"),
+    url("/fonts/ValueSerifPro-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Value Sans Pro";
+  src: local("Value Sans Pro Medium Italic"),
+    local("/fonts/ValueSansPro-MediumItalic"),
+    url("/fonts/ValueSansPro-MediumItalic.ttf") format("truetype");
+  font-weight: 500;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "Value Sans Pro";
+  src: local("Value Sans Pro Italic"), local("/fonts/ValueSansPro-Italic"),
+    url("/fonts/ValueSansPro-Italic.ttf") format("truetype");
+  font-weight: normal;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "Value Sans Pro";
+  src: local("Value Sans Pro Bold"), local("/fonts/ValueSansPro-Bold"),
+    url("/fonts/ValueSansPro-Bold.ttf") format("truetype");
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Value Serif Pro";
+  src: local("Value Serif Pro Bold"), local("/fonts/ValueSerifPro-Bold"),
+    url("/fonts/ValueSerifPro-Bold.ttf") format("truetype");
+  font-weight: bold;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Value Sans Pro";
+  src: local("Value Sans Pro Black Italic"),
+    local("/fonts/ValueSansPro-BlackItalic"),
+    url("/fonts/ValueSansPro-BlackItalic.ttf") format("truetype");
+  font-weight: 900;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "Value Sans Pro";
+  src: local("Value Sans Pro Black"), local("/fonts/ValueSansPro-Black"),
+    url("/fonts/ValueSansPro-Black.ttf") format("truetype");
+  font-weight: 900;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Value Sans Pro";
+  src: local("Value Sans Pro Medium"), local("/fonts/ValueSansPro-Medium"),
+    url("/fonts/ValueSansPro-Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Value Serif Pro";
+  src: local("Value Serif Pro Medium"), local("/fonts/ValueSerifPro-Medium"),
+    url("/fonts/ValueSerifPro-Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Value Sans Pro";
+  src: local("Value Sans Pro Bold Italic"),
+    local("/fonts/ValueSansPro-BoldItalic"),
+    url("/fonts/ValueSansPro-BoldItalic.ttf") format("truetype");
+  font-weight: bold;
+  font-style: italic;
+}
