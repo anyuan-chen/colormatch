@@ -18,7 +18,7 @@ genres:
 recommendation_count:
     type: int32
 
-## /trackfeatures
+## /trackanalysis
 id:
     type: string
 

@@ -3,6 +3,7 @@ package spotify_api
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"strconv"
 
@@ -10,10 +11,11 @@ import (
 )
 
 func (s *SpotifyApi) GetRecommendations(w http.ResponseWriter, r *http.Request) {
-	artistIds := r.Form["artist_ids"]
-	trackIds := r.Form["track_ids"]
-	genres := r.Form["genres"]
-	recommendationCount, err := strconv.Atoi(r.Form.Get("recommendation_count"))
+	params := r.URL.Query()
+	artistIds := params["artist_ids"]
+	trackIds := params["track_ids"]
+	genres := params["genres"]
+	recommendationCount, err := strconv.Atoi(params.Get("recommendation_count"))
 	if err != nil {
 		http.Error(w, "invalid recommendation count", http.StatusUnauthorized)
 		return
@@ -40,16 +42,13 @@ func (s *SpotifyApi) GetRecommendations(w http.ResponseWriter, r *http.Request) 
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	encoded_resp, err := json.Marshal(resp)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-	w.Write(encoded_resp)
+	w.Write(resp.Recommendations)
+	fmt.Println("successfully finished writing audio recommendations")
 }
 
 func (s *SpotifyApi) GetTrackAudioAnalysis(w http.ResponseWriter, r *http.Request) {
-	id := r.Form.Get("id")
+	params := r.URL.Query()
+	id := params.Get("id")
 	token, err := GetToken(s, r)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -69,16 +68,13 @@ func (s *SpotifyApi) GetTrackAudioAnalysis(w http.ResponseWriter, r *http.Reques
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	encoded_resp, err := json.Marshal(resp)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-	w.Write(encoded_resp)
+	w.Write(resp.AudioAnalysis)
+	fmt.Println("successfully finished writing audio analysis")
 }
 
 func (s *SpotifyApi) GetTrackAudioFeatures(w http.ResponseWriter, r *http.Request) {
-	id := r.Form.Get("id")
+	params := r.URL.Query()
+	id := params.Get("id")
 	token, err := GetToken(s, r)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -98,10 +94,7 @@ func (s *SpotifyApi) GetTrackAudioFeatures(w http.ResponseWriter, r *http.Reques
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	encoded_resp, err := json.Marshal(resp)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-	w.Write(encoded_resp)
+	w.Write(resp.AudioFeatures)
+	fmt.Println("successfully finished writing audio features")
+
 }

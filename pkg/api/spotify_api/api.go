@@ -135,6 +135,7 @@ func StringArrayToPalette(strings []string) (sharedv1.Palette, error) {
 }
 func GetSearchType(search_type string) spotifyv1.SearchType {
 	type_map := make(map[string]spotifyv1.SearchType)
+	type_map["track"] = spotifyv1.SearchType_SEARCH_TYPE_TRACK
 	type_map["album"] = spotifyv1.SearchType_SEARCH_TYPE_ALBUM
 	type_map["artist"] = spotifyv1.SearchType_SEARCH_TYPE_ARTIST
 	return type_map[search_type]

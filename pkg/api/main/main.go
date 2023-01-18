@@ -54,6 +54,7 @@ func main() {
 	spotify.HandleFunc("/recommendations", spotifyAPI.GetRecommendations)
 	spotify.HandleFunc("/trackfeatures", spotifyAPI.GetTrackAudioFeatures)
 	spotify.HandleFunc("/trackanalysis", spotifyAPI.GetTrackAudioAnalysis)
+	spotify.HandleFunc("/search", spotifyAPI.Search)
 	http.Handle("/", &Server{r: r})
 	fmt.Println("serving port ", os.Getenv("API_PORT"))
 	http.ListenAndServe(os.Getenv("API_PORT"), nil)

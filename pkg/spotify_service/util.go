@@ -17,7 +17,10 @@ func GetSearchType(req_search_type spotifyv1.SearchType) (spotify.SearchType, er
 		return spotify.SearchTypeAlbum, nil
 	case spotifyv1.SearchType_SEARCH_TYPE_ARTIST:
 		return spotify.SearchTypeArtist, nil
+	case spotifyv1.SearchType_SEARCH_TYPE_TRACK:
+		return spotify.SearchTypeTrack, nil
 	}
+	
 	return spotify.SearchTypeAlbum, errors.New("bad search type")
 }
 
