@@ -12,6 +12,7 @@ enum SearchType {
     SEARCH_TYPE_UNSPECIFIED = 0;
     SEARCH_TYPE_ARTIST = 1;
     SEARCH_TYPE_ALBUM = 2;
+    SEARCH_TYPE_TRACK = 3;
 }
 message GetColorMetadataForSpotifyAssetRequest {
     bytes token = 1;
@@ -55,8 +56,16 @@ message GetRecommendationsRequest {
 message GetRecommendationsResponse {
     bytes recommendations = 1;
 }
-
+message GetSearchResultRequest {
+    bytes token = 1;
+    string query = 2;
+    repeated SearchType types = 3;
+}
+message GetSearchResultResponse {
+    bytes search_response = 1;
+}
 service SpotifyAPIService {
+    rpc GetSearchResult (GetSearchResultRequest) returns (GetSearchResultResponse);
     rpc GetTrackAudioFeatures (GetTrackAudioFeaturesRequest) returns (GetTrackAudioFeaturesResponse);
     rpc GetTrackAudioAnalysis (GetTrackAudioAnalysisRequest) returns (GetTrackAudioAnalysisResponse);
     rpc GetRecommendations (GetRecommendationsRequest) returns (GetRecommendationsResponse);
