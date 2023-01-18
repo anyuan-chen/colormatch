@@ -22,6 +22,7 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type SpotifyAPIServiceClient interface {
+	GetSearchResult(ctx context.Context, in *GetSearchResultRequest, opts ...grpc.CallOption) (*GetSearchResultResponse, error)
 	GetTrackAudioFeatures(ctx context.Context, in *GetTrackAudioFeaturesRequest, opts ...grpc.CallOption) (*GetTrackAudioFeaturesResponse, error)
 	GetTrackAudioAnalysis(ctx context.Context, in *GetTrackAudioAnalysisRequest, opts ...grpc.CallOption) (*GetTrackAudioAnalysisResponse, error)
 	GetRecommendations(ctx context.Context, in *GetRecommendationsRequest, opts ...grpc.CallOption) (*GetRecommendationsResponse, error)
@@ -35,6 +36,15 @@ type spotifyAPIServiceClient struct {
 
 func NewSpotifyAPIServiceClient(cc grpc.ClientConnInterface) SpotifyAPIServiceClient {
 	return &spotifyAPIServiceClient{cc}
+}
+
+func (c *spotifyAPIServiceClient) GetSearchResult(ctx context.Context, in *GetSearchResultRequest, opts ...grpc.CallOption) (*GetSearchResultResponse, error) {
+	out := new(GetSearchResultResponse)
+	err := c.cc.Invoke(ctx, "/spotify.v1.SpotifyAPIService/GetSearchResult", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
 }
 
 func (c *spotifyAPIServiceClient) GetTrackAudioFeatures(ctx context.Context, in *GetTrackAudioFeaturesRequest, opts ...grpc.CallOption) (*GetTrackAudioFeaturesResponse, error) {
@@ -86,6 +96,7 @@ func (c *spotifyAPIServiceClient) PingTokenValidity(ctx context.Context, in *Pin
 // All implementations should embed UnimplementedSpotifyAPIServiceServer
 // for forward compatibility
 type SpotifyAPIServiceServer interface {
+	GetSearchResult(context.Context, *GetSearchResultRequest) (*GetSearchResultResponse, error)
 	GetTrackAudioFeatures(context.Context, *GetTrackAudioFeaturesRequest) (*GetTrackAudioFeaturesResponse, error)
 	GetTrackAudioAnalysis(context.Context, *GetTrackAudioAnalysisRequest) (*GetTrackAudioAnalysisResponse, error)
 	GetRecommendations(context.Context, *GetRecommendationsRequest) (*GetRecommendationsResponse, error)
@@ -97,6 +108,9 @@ type SpotifyAPIServiceServer interface {
 type UnimplementedSpotifyAPIServiceServer struct {
 }
 
+func (UnimplementedSpotifyAPIServiceServer) GetSearchResult(context.Context, *GetSearchResultRequest) (*GetSearchResultResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetSearchResult not implemented")
+}
 func (UnimplementedSpotifyAPIServiceServer) GetTrackAudioFeatures(context.Context, *GetTrackAudioFeaturesRequest) (*GetTrackAudioFeaturesResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetTrackAudioFeatures not implemented")
 }
@@ -122,6 +136,24 @@ type UnsafeSpotifyAPIServiceServer interface {
 
 func RegisterSpotifyAPIServiceServer(s grpc.ServiceRegistrar, srv SpotifyAPIServiceServer) {
 	s.RegisterService(&SpotifyAPIService_ServiceDesc, srv)
+}
+
+func _SpotifyAPIService_GetSearchResult_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetSearchResultRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SpotifyAPIServiceServer).GetSearchResult(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/spotify.v1.SpotifyAPIService/GetSearchResult",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SpotifyAPIServiceServer).GetSearchResult(ctx, req.(*GetSearchResultRequest))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
 func _SpotifyAPIService_GetTrackAudioFeatures_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -221,6 +253,10 @@ var SpotifyAPIService_ServiceDesc = grpc.ServiceDesc{
 	ServiceName: "spotify.v1.SpotifyAPIService",
 	HandlerType: (*SpotifyAPIServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "GetSearchResult",
+			Handler:    _SpotifyAPIService_GetSearchResult_Handler,
+		},
 		{
 			MethodName: "GetTrackAudioFeatures",
 			Handler:    _SpotifyAPIService_GetTrackAudioFeatures_Handler,
