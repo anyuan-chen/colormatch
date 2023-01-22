@@ -52,7 +52,8 @@ async function GetTrackFeatures(id: string) {
       credentials: "include",
     }
   );
-  return await res.json();
+  const data =  await res.json();
+  return data;
 }
 
 async function Ping() {

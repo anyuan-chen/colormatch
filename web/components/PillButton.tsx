@@ -1,30 +1,16 @@
 `use client`;
 import Link from "next/link";
-
+import { ButtonProps } from "../types/button";
+import BaseButton from "./button/button";
 export default function PillButton({
   color,
-  onClick,
+  onClick = () => {},
   children,
-  href,
-}: {
-  color: string;
-  children: React.ReactNode;
-  onClick: () => void;
-  href: string;
-}) {
-  const BaseButton = (
-    <button
-      style={{ backgroundColor: color }}
-      onClick={(e) => {
-        onClick();
-      }}
-    >
+  type,
+}: ButtonProps) {
+  return (
+    <BaseButton color={color} onClick={onClick} type={type}>
       {children}
-    </button>
+    </BaseButton>
   );
-  if (href) {
-    return <Link href={href}>{BaseButton}</Link>;
-  } else {
-    return BaseButton;
-  }
 }

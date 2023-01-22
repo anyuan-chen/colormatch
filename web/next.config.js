@@ -4,6 +4,15 @@ const nextConfig = {
   experimental: {
     appDir: true,
   },
+  async redirects() {
+    return [
+      {
+        source: "/spotify/callback",
+        destination: "/connect/spotify/thanks",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 module.exports = nextConfig;

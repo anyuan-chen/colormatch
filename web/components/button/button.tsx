@@ -1,4 +1,10 @@
-export default function BaseButton({ color, children }) {
+import { ButtonProps } from "../../types/button";
+export default function BaseButton({
+  color,
+  children,
+  onClick = () => {},
+  type = "button",
+}: ButtonProps) {
   return (
     <button
       style={{
@@ -8,6 +14,8 @@ export default function BaseButton({ color, children }) {
         border: "none",
         cursor: "pointer",
       }}
+      onClick={() => onClick}
+      type={type}
     >
       {children}
     </button>
